@@ -32,7 +32,7 @@
 
                 return allColors[Math.floor(Math.random()*allColors.length)];
             }
-            
+
             function reload() {
                 var ts = new Date().getTime();
                 $.ajax({
@@ -54,13 +54,17 @@
                          if ($.inArray(data.instance, containers) == -1) {
                              containers.push(data.instance);
                          }
-            
+
                          for (var i=0; i<containers.length; i++) {
                             var instanceName = containers[i];
                             var el = $("#instance-" + instanceName);
                             if (el.length == 0) {
                                 console.log("creating instance " + instanceName);
+<<<<<<< HEAD
                                 var elData = '<div id="instance-' + instanceName + '" class="card container-instance"><div class="image"><img width="25%" height="25%" src="static/img/rancher-logo-cow-blue.png"></div><div class="content centered view-computer"><div> {{ if .ShowVersion }}<div class="ui top left attached ' + color + ' label">' + data.version +'</div>{{ end }} <div id="instance-label-' + instanceName + '"class="ui top right attached green serving label">serving</div>' + instanceName + '</div></div></div>';
+=======
+                                var elData = '<div id="instance-' + instanceName + '" class="ui card container-instance"><div class="image"><img width="25%" height="25%" src="static/img/container.png"></div><div class="content centered view-computer"><div> {{ if .ShowVersion }}<div class="ui top left attached ' + color + ' label">' + data.version +'</div>{{ end }} <div id="instance-label-' + instanceName + '"class="ui top right attached green serving label">serving</div>' + instanceName + '</div></div></div>';
+>>>>>>> upstream/master
 
                                 $("div.container-group").append(elData);
                                 el = $("#instance-" + instanceName);
@@ -73,24 +77,25 @@
                                 $(lbl).fadeOut(250);
                             }
                          }
-            
+
                          $("#container-count").text(containers.length);
                          if (containers.length > 1) {
                              $("#container-count-label").text("containers");
                          } else {
                              $("#container-count-label").text("container");
                          }
-            
+
                          $("#current-container").text(data.instance);
                          $("#current-container-version").text(data.version);
                          $("#container-backend").removeClass('hide');
                          $("div.container-backend").show();
+                         $("#extra-info").text(data.metadata);
 
                          $("#requests-count").text(parseInt($("#requests-count").text()) + 1);
                      }
                 });
             }
-            
+
             setInterval(reload, {{ .RefreshInterval }});
         </script>
     </head>
@@ -98,8 +103,12 @@
         <div class="ui two column relaxed doubling padded grid">
             <div class="six wide column meta">
                 <div class="ui container">
+<<<<<<< HEAD
                     Inspired by <a href="https://github.com/ehazlett/docker-demo" target="_blank">ehazlett/docker-demo</a>
                     <img class="logo center" src="static/img/rancher-logo-stacked-white.png"/>
+=======
+                    <img class="logo center" src="static/img/moby.svg"/>
+>>>>>>> upstream/master
 
                     {{if ne .Title ""}}
                     <div class="row centered title">
@@ -142,9 +151,9 @@
                         </div>
                     </div>
 
-                    {{ if ne .ExtraInfo "" }}
+                    {{ if ne .Metadata "" }}
                     <div class="row centered extra-info">
-                        {{ .ExtraInfo }}
+                        {{ .Metadata }}
                     </div>
                     {{ end }}
                 </div>

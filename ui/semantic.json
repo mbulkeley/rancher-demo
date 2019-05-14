@@ -17,5 +17,6 @@
   },
   "permission": false,
   "rtl": false,
-  "version": "2.2.9"
+  "autoInstall": true,
+  "version": "2.2.13"
 }
