@@ -11,6 +11,7 @@ import (
 	"os/signal"
 	"sync"
 	"time"
+	"strconv"
 
 	"github.com/urfave/cli"
 )
@@ -29,6 +30,7 @@ type (
 		Version         string
 		Hostname        string
 		RefreshInterval string
+		ExpireInterval	string
 		Metadata        string
 		SkipErrors      bool
 		ShowVersion     bool
@@ -115,11 +117,19 @@ func index(w http.ResponseWriter, r *http.Request) {
 		refreshInterval = "1000"
 	}
 
+	expireInterval := os.Getenv("EXPIRE_INTERVAL")
+	if expireInterval == "" {
+		r, _ := strconv.ParseInt(refreshInterval, 0, 0)
+		e := r * 5
+		expireInterval =  strconv.FormatInt(e, 10)
+	}
+
 	cnt := &Content{
 		Title:           title,
 		Version:         getVersion(),
 		Hostname:        hostname,
 		RefreshInterval: refreshInterval,
+		ExpireInterval:  expireInterval,
 		Metadata:        getMetadata(),
 		SkipErrors:      os.Getenv("SKIP_ERRORS") != "",
 		ShowVersion:     os.Getenv("SHOW_VERSION") != "",
