@@ -21,7 +21,6 @@ ENV GO111MODULE=on
 RUN go build -a -v -tags 'netgo' -ldflags '-w -linkmode external -extldflags -static' -o docker-demo .
 
 FROM alpine:latest
-MAINTAINER "Evan Hazlett <ejhazlett@gmail.com>"
 RUN apk add -U --no-cache curl
 COPY static /static
 COPY --from=ui /usr/src/app/ui/semantic/dist/semantic.min.css static/dist/semantic.min.css
@@ -29,5 +28,6 @@ COPY --from=ui /usr/src/app/ui/semantic/dist/semantic.min.js static/dist/semanti
 COPY --from=ui /usr/src/app/ui/semantic/dist/themes/default/assets static/dist/themes/default/
 COPY --from=app /go/src/app/docker-demo /bin/docker-demo
 COPY templates /templates
+ENV COW_COLOR black
 EXPOSE 8080
 ENTRYPOINT ["/bin/docker-demo"]
